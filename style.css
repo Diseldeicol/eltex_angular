@@ -151,7 +151,7 @@ address {
 #my_skills li::after {
     content: "";
     display: block;
-    /* width: 368px; */
+    /* width: 368px; НЕ ГУД ПРИ МАСШТАБИРОВАНИИ*/ 
     width: 100%;
     height: 2px;
     background-color: #BDC1CA;
