@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная</title>
+    <link rel="icon" href="./favicon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
     
@@ -11,16 +15,20 @@
     <header>
         <nav>
             <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="blog.html">Блог</a></li>
+                <li><a href="index.html">About me</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#footer">Contact</a></li>
             </ul>
         </nav>
     </header>
     <main>
-        <section>
-            <h1>Обо мне</h1>
-            <p>Добро пожаловать! Я начинающий веб-разработчик, в настоящее время прохожу курс от компании Eltex. На этом блоге я делюсь полученными знаниями, проектами и в целом полезной информацией. Если вы только начинаете свой путь в веб-разработке, блог может стать для вас проводником в этом деле. Давайте осваивать эту сферу вместе!</p>
-            <img src="./photo.jpg" width="285" height="342" alt="Фотография">
+        <section class = "about_me">
+            <div id = "about_me_text">
+                <h1>Добро пожаловать! Я начинающий веб-разработчик</h1>
+                <p>В настоящее время прохожу курс от компании Eltex. На этом блоге я делюсь полученными знаниями, проектами и в целом полезной информацией. Если вы только начинаете свой путь в веб-разработке, блог может стать для вас проводником в этом деле. Давайте осваивать эту сферу вместе!</p>
+                <a href="#footer" id="link_f_inf">More about me</a>
+            </div>
+            <div id = "about_me_photo"><img src="./photo.jpg" width="285" height="342" alt="Фотография"></div>
         </section>
         
         <section>
@@ -67,12 +75,17 @@
                 </ul>
             </section>
 
-            <section>
-                <h3>Навыки:</h3>
-                <ul>
-                    <li>Программирование: Python, C++, Java, JavaScript, HTML5, CSS3, Node.js</li>
-                    <li>Инструменты: Git, Figma, VS Code</li>
-                    <li>Методологии: Agile, Scrum, Test-Driven Development</li>
+            <section >
+                <h3>Навыки</h3>
+                <ul id="my_skills">
+                    <li>Python</li>
+                    <li>JavaScrip</li>
+                    <li>HTML5</li>
+                    <li>Git</li>
+                    <li>Figma</li>
+                    <li>VS Code</li>
+                    <li>CSS</li>
+                    <li>Angular</li>
                     <br>
                 </ul>
             </section>
@@ -110,7 +123,7 @@
         </section>
     </main>
     <br>
-    <footer>
+    <footer id = "footer">
         <address>
             <h2>Контакты</h2>
             <p>Email: <a href="mailto:alinad@gmail.com">alinad@gmail.com</a></p>
