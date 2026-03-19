@@ -2,6 +2,12 @@
     font-family: "Inter", sans-serif;
     box-sizing: border-box;
 }
+head,
+body,
+footer{
+    margin-left: 132px;
+    margin-right: 132px;
+}
 h1{
     font-size: 52px;
     font-weight: 700;
@@ -104,7 +110,8 @@ address {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 36px 36px;
-    margin-left: 132px;
+    margin-top: 51px;
+    margin-bottom: 107;
     list-style: none;
     padding: 0;
 }
