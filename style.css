@@ -3,15 +3,27 @@
     box-sizing: border-box;
 }
 head,
-body,
-footer{
+header,
+main{
     margin-left: 132px;
     margin-right: 132px;
+    padding: 0;
+}
+body {
+    margin: 0;
     padding: 0;
 }
 header{
     padding-top: 33px;
 }
+footer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: #1E2128;
+}
+
 section{
     margin-top: 50px;
     margin-bottom: 50px
@@ -36,6 +48,13 @@ h4{
     font-weight: 400;
     font-style: normal;
     color: #323743
+}
+h5,
+p{
+    font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
+    color: #323743;
 }
 ul {
     list-style: none;
@@ -83,7 +102,6 @@ nav a:hover {
 address {
     font-style: normal;
 }
-
 .about_me{
     display: flex;
     gap: 170px; 
@@ -157,3 +175,104 @@ address {
     background-color: #BDC1CA;
     margin-top: 8px;
 }
+.pages div{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 60px;
+    background-color: #F4FBF4;
+   
+}
+.pages h5{
+    color: #4f814f;
+}
+.pages article{
+    position: relative;
+    padding: 63px 50px 0px 49px;
+}
+.pages img{
+    padding: 0;
+}
+/* .pages div::after{
+    content: "";  
+    width: 600px;  
+    height: 400px;  
+    display: block;  
+    background-image: url("noname_photo.png");  
+    background-repeat: no-repeat;    
+} поняла что в данном случае лучше добавить картинку в html*/ 
+.pages div:hover{
+    background-color: #FEF3EF;
+}
+.pages div:hover h5 {
+    color:  #9e5c43;
+}
+.pages section:last-child{
+    padding-bottom: 35px;
+}
+.pages a{
+    display: block;
+    width: 270px;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    text-decoration: none;
+    color: #61C15C;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #61C15C;
+    border-radius: 5px;
+    padding: 12px 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.my_work{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+#my_way div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;  
+    padding: 0px 0px 36px 0px;
+    border-bottom: 3px solid #BDC1CA;
+}
+/* #my_way img {
+    margin-top: 20px;
+} */
+/* #my_way div:first-child{
+    align-items: flex-start;
+} */
+
+/* #my_way article::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #BDC1CA;
+    margin-top: 8px;
+} */
+
+/* #my_way article::before{
+    content: "";   
+    display: inline-block;  
+    width: 66px;  
+    height: 59px; 
+    background-image: url("noname_photo.png");  
+    background-repeat: no-repeat;    
+}  */
+footer address,
+footer h2,
+footer h3,
+footer p {
+    margin: 0;
+    color: white;
+}
+#input_inf{
+    display: flex;
+    flex-direction: column;
+
+}
+
