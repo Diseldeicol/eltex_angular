@@ -4,70 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Блог</title>
+    <link rel="icon" href="./favicon.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <nav>
             <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="blog.html">Блог</a></li>
+                <li><a href="index.html">About me</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="#footer">Contact</a></li>
             </ul>
         </nav>
     </header> 
-    <br>
     <main>
-        <section>
+        <section class="blog_articles">
             <h1>Статьи</h1>
-            <article>
-                <h2>Как создать адаптивный дизайн за 30 минут</h2>
-                <p>Опубликовано: <time datetime="2024-12-15">15 декабря 2024</time></p>
-                <p>В этой статье я расскажу о ключевых принципах создания мобильных интерфейсов, которые одинаково хорошо выглядят на всех устройствах. Вы узнаете о медиа-запросах, гибких сетках и практических примерах кода, которые можно использовать прямо сейчас.<br><br></p>
-            </article>
+            <div class = "article_main">
+                <img src="./noname_photo.png" width="769" height="454" alt="Фотография">
+                <article class="article_text">
+                    <h2>Как создать адаптивный дизайн за 30 минут</h2>
+                    <p>В этой статье я расскажу о ключевых принципах создания мобильных интерфейсов, которые одинаково хорошо выглядят на всех устройствах. Вы узнаете о медиа-запросах, гибких сетках и практических примерах кода, которые можно использовать прямо сейчас.</p>
+                    <time datetime="2024-12-15">15 декабря 2024</time>
+                </article>
+            </div>
 
-            <article>
-                <h2>Первые шаги в HTML-верстке</h2>
-                <p>Опубликовано: <time datetime="2024-12-20">20 декабря 2024</time></p>
-                <p>В этой статье разберем базовую структуру HTML-документа, основные теги и типичные ошибки начинающих.<br><br></p>
-            </article>
+            <div class = "article_grid">
+                <article class="article_card">
+                    <img src="./noname_photo.png" width="368" height="217" alt="Фотография">
+                    <h4>Minim anim pariatur magna duis sit et dolor incididunt</h4>
+                    <!-- <p>В этой статье разберем базовую структуру HTML-документа, основные теги и типичные ошибки начинающих.<br><br></p> -->
+                    <time datetime="2024-12-20">20 декабря 2024</time>
+                </article>
 
-            <article>
-                <h2>Почему важно использовать семантические теги</h2>
-                <p>Опубликовано: <time datetime="2024-12-30">30 декабря 2024</time></p>
-                <p>В этой статье расскажу о том, как семантическая верстка помогает сделать страницу понятнее и для разработчиков, и для браузера.<br><br></p>
-            </article>
+                <article class="article_card">
+                    <img src="./noname_photo.png" width="368" height="217" alt="Фотография">
+                    <h4>Minim anim pariatur magna duis sit et dolor incididunt</h4>
+                    <!-- <p>В этой статье расскажу о том, как семантическая верстка помогает сделать страницу понятнее и для разработчиков, и для браузера.<br><br></p> -->
+                    <time datetime="2024-12-30">30 декабря 2024</time>
+                </article>
 
-            <article>
-                <h2>Основы работы с CSS для начинающих</h2>
-                <p>Опубликовано: <time datetime="2025-01-05">5 января 2025</time></p>
-                <p>В этой статье рассмотрим, как подключить CSS к HTML-документу, для чего нужны селекторы, а также как с помощью стилей изменить цвет, размер текста и отступы элементов на странице.<br><br></p>
-            </article>
+                <article class="article_card">
+                    <img src="./noname_photo.png" width="368" height="217" alt="Фотография">
+                    <h4>Minim anim pariatur magna duis sit et dolor incididunt</h4>
+                    <!-- <p>В этой статье рассмотрим, как подключить CSS к HTML-документу, для чего нужны селекторы, а также как с помощью стилей изменить цвет, размер текста и отступы элементов на странице.<br><br></p> -->
+                    <time datetime="2025-01-05">5 января 2025</time>
+                </article>
 
-            <article>
-                <h2>Как правильно структурировать HTML-страницу</h2>
-                <p>Опубликовано: <time datetime="2025-01-12">12 января 2025</time></p>
-                <p>В этой статье разберем, зачем нужны теги header, main, section, article и footer, и как с их помощью сделать структуру страницы более понятной, логичной и удобной для дальнейшей разработки.<br><br></p>
-            </article>
-        </section>
-        <br>
-        <section>
-            <h2>Создать статью</h2>
-            <input id="article-title" name="title" placeholder="Заголовок">
-            <br>
-            <textarea id="article-text" name = "paper_text" rows="5" placeholder="Текст статьи"></textarea>
-            <br>
-            <button id="article-button">Добавить</button>
+                <article class="article_card">
+                    <img src="./noname_photo.png" width="368" height="217" alt="Фотография">
+                    <h4>Minim anim pariatur magna duis sit et dolor incididunt</h4>
+                    <!-- <p>В этой статье разберем, зачем нужны теги header, main, section, article и footer, и как с их помощью сделать структуру страницы более понятной, логичной и удобной для дальнейшей разработки.<br><br></p> -->
+                    <time datetime="2025-01-12">12 января 2025</time>
+                </article>
+
+                <article class="article_card">
+                    <img src="./noname_photo.png" width="368" height="217" alt="Фотография">
+                    <h4>Minim anim pariatur magna duis sit et dolor incididunt</h4>
+                    <!-- <p>В этой статье рассмотрим, как подключить CSS к HTML-документу, для чего нужны селекторы, а также как с помощью стилей изменить цвет, размер текста и отступы элементов на странице.<br><br></p> -->
+                    <time datetime="2025-01-05">5 января 2025</time>
+                </article>
+                
+                <article class="article_card">
+                    <img src="./noname_photo.png" width="368" height="217" alt="Фотография">
+                    <h4>Minim anim pariatur magna duis sit et dolor incididunt</h4>
+                    <!-- <p>В этой статье разберем, зачем нужны теги header, main, section, article и footer, и как с их помощью сделать структуру страницы более понятной, логичной и удобной для дальнейшей разработки.<br><br></p> -->
+                    <time datetime="2025-01-12">12 января 2025</time>
+                </article>
+            </div>
+            <a href="#" title ="Статьи">Посмотреть далее</a>
         </section>
     </main>
-    <br>
-    <footer>
-        <address>
-            <h2>Контакты</h2>
-            <p>Email: <a href="mailto:alinad@gmail.com">alinad@gmail.com</a></p>
-            <p>Телефон: <a href="tel:+79833333333">+7 (983) 333-33-33</a></p>
-            <h3>Социальные сети</h3>
-            <p><a href="#">Instagram</a> | <a href="#">Twitter</a> | <a href="#">LinkedIn</a> | <a href="#">GitHub</a></p>
-        </address>  
+    <footer id = "footer">
+        <div>
+            <address>
+                <h2>Подавай заявку и будем работать вместе!</h2>
+                <p>Email: <a href="mailto:alinad@gmail.com" style="color: white;">alinad@gmail.com</a></p>
+                <p>Телефон: <a href="tel:+79833333333" style="color: white;">+7 (983) 333-33-33</a></p>
+                <h3>Социальные сети</h3>
+                <p><a href="#"><img src="github.ico" alt="GitHub"></a>&nbsp &nbsp &nbsp<a href="#"><img src="instagram.ico" alt="Instagram"></a>&nbsp &nbsp &nbsp <a href="#"><img src="V_kontakte.ico" alt="VK"></a></p>
+                <p class="brand">© 2026 Brand, Inc</p>
+            </address>  
+        </div>
+        <div id="input_inf">
+            <div class="field">
+                <label for="input_email">Email</label>
+                <input id="input_email" name="title" placeholder="Your email">
+            </div>
+            
+            <div class="field">
+                <label for="input_email">Input your message</label>
+                <textarea id="article-text" name = "paper_text" rows="5" placeholder="Describe your project"></textarea>
+            </div>
+            
+            <button id="article-button">Submit</button>
+        </div>
     </footer>
 </body>   
 </html>
