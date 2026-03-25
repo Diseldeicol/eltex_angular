@@ -1,0 +1,17 @@
+.pages a,
+.blog-articles a{
+    display: block;
+    font-style: normal;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--green-color-accent);
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--green-color-accent);
+    border-radius: 5px;
+    padding: 12px 30px;
+    margin-top: 32px;
+    margin-left: 40%;
+    margin-right: 40%;
+}

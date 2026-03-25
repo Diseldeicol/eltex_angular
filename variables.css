@@ -1,0 +1,20 @@
+:root {
+    --footer-color: #1E2128;
+   
+    --common-text-color: #323743;
+    --heading-text-color: #323747;
+    --about-me-text-color: #68686A;
+
+    --page-card-background-color: #F4FBF4;
+    --page-card-hover-background-color: #FEF3EF;
+    --main-article-background-color: #FAFAFA;
+    
+    --green-color-accent: #61C15C;
+    --dark-green-color-accent: #4F814F;
+    --orange-color-accent: #9E5C43;
+
+    --line-element-color: #BDC1CA;
+    --footer-text-color: #DDE0E7;
+
+    --overlay-color: rgba(0, 0, 0, 0.5);
+}

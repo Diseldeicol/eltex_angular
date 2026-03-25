@@ -1,0 +1,8 @@
+@media (max-width: 800px) {
+    .article-grid {
+        grid-template-columns: 1fr;
+    }
+    .article-card {
+        max-width: 100%;
+    }
+}
