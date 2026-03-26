@@ -31,6 +31,8 @@ function addPostButtonListener() {
 }
 addPostButtonListener();
 
+
+
 const articleListName = '.article-grid';
 const articleCardTemplateId = 'article-card-tmp';
 const articleList = document.querySelector(articleListName);
@@ -38,13 +40,14 @@ const articleCardTemplate = document.getElementById(articleCardTemplateId);
 
 const addArticleButtonId = 'article-post-button';
 const addArticleButton = document.getElementById(addArticleButtonId);
-addArticleButton.addEventListener('click', addArticleCardFromTemplate);
+const addForm = document.querySelector('.adding-form');
 
-function addArticleCardFromTemplate() {
+addForm?.addEventListener('submit', (event) => {
+    event.preventDefault();
     const clonedTemplateNode = articleCardTemplate.content.cloneNode(true);
 
     articleList.append(clonedTemplateNode);
-}
+})
 
 
 const openStatBtnId = 'button-stat';
