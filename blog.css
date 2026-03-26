@@ -94,7 +94,7 @@
 }
 
 
-#article-adding-button,
+#article-post-button,
 #article-cancel-button
 {
     width: 276px;
@@ -102,7 +102,7 @@
     border-radius: 5px;
     background: var(--green-color-accent);
     color: white;
-    border-width: 0px;
+    border: 1px solid var(--green-color-accent);
     margin-right: 20px;
 
 }
@@ -110,7 +110,6 @@
     background: white;
     color: var(--green-color-accent);
     border-width: 2px;
-    border: 1px solid var(--green-color-accent);
 }
 #article-adding label{
     font-weight: 400;
@@ -132,7 +131,7 @@
     box-shadow: 0 4px 12px var(--overlay-color);
     padding: 0;
 }
-#button-post-article,
+#button-edit,
 #button-stat{
     width: 21px;
     height: 21px;
@@ -144,7 +143,7 @@
 #button-stat{
     margin-top: 0px;
 }
-#button-post-article img,
+#button-edit img,
 #button-stat img{
     display: block;
     width: 21px;
@@ -179,9 +178,11 @@
 .adding-form:not([data-hidden]) {
     animation: showButton 250ms ease both;
     max-height: 460px;
+    opacity: 1;
 }
 
 .adding-form[data-hidden] {
     animation: hideButton 250ms ease both;
     max-height: 0px;
+    opacity: 0;
 }
