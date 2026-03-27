@@ -68,10 +68,35 @@
     margin-bottom: 0px;
 }
 .article-card{
+    position: relative;
     height: 100%;
     display: flex;
     flex-direction: column;
     margin: auto;
+}
+.button-delete{
+    position:absolute;
+    right: 2px;
+    top: 3px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+.article-card:hover .button-delete{
+    opacity: 1;
+    visibility: visible;
+}
+.button-delete img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 .article-card h4{
     margin: 4px 0px 21px 0px;
@@ -93,7 +118,6 @@
     margin-bottom: 24px;
 }
 
-
 #article-post-button,
 #article-cancel-button
 {
@@ -104,7 +128,7 @@
     color: white;
     border: 1px solid var(--green-color-accent);
     margin-right: 20px;
-
+    cursor: pointer;
 }
 #article-cancel-button{
     background: white;
@@ -139,6 +163,7 @@
     padding: 0;
     margin: 24px 12px;
     background-color: white;
+    cursor: pointer;
 }
 #button-stat{
     margin-top: 0px;
