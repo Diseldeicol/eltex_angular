@@ -1,3 +1,6 @@
+import { Article } from './article-storage.js';
+import { ArticleStore } from './article-storage.js';
+
 const buttonEditName = 'button-edit';
 const addingFormName = '.adding-form';
 const buttonCancelName = 'article-cancel-button';
@@ -15,14 +18,12 @@ const postBtn = document.getElementById(buttonEditName);
 const cancelBtn = document.getElementById(buttonCancelName);
 const addingForm = document.querySelector(addingFormName);
 const articleList = document.querySelector(articleListName);
-const articleCardTemplate = document.getElementById(articleCardTemplateId);
-const addArticleButton = document.getElementById(addArticleButtonId);
 const openStatBtn = document.getElementById(openStatBtnId);
 const dialog = document.getElementById(dialogId);
-const articles = document.getElementsByClassName(articleCardClassName);
 const articleStatistic = document.querySelector(articleStatisticName);
 const articleCountElement = document.getElementById(articleCountElementId);
 const closeStatBtn = dialog.querySelector('[data-close]');
+const store = new ArticleStore(articleList);
 
 
 function addPostButtonListener() {
@@ -52,21 +53,17 @@ addPostButtonListener();
 
 
 function handleAddArticleForm() {
-    const articleTitleField = addingForm.elements['title'];
-    const articleDescriptionField = addingForm.elements['paper-text'];
-    
+    const articleTitle = addingForm.elements['title'].value;
+    const articleDescription = addingForm.elements['paper-text'].value;
     if (!addingForm.checkValidity()) {
         return;
     }
+    if (!articleTitle || !articleDescription) return;
 
-    const clonedTemplateNode = articleCardTemplate.content.cloneNode(true);
-
-    clonedTemplateNode.querySelector('h4').textContent = articleTitleField.value;
-    clonedTemplateNode.querySelector('p').textContent=articleDescriptionField.value;
-    
-    articleList.append(clonedTemplateNode);
+    const article = new Article(articleTitle, articleDescription);
+    store.add(article);
     addingForm.reset();
-}
+} 
 
 
 function event_handlers(){
@@ -74,14 +71,15 @@ function event_handlers(){
         event.preventDefault();
         handleAddArticleForm();
     })
-    articleList.addEventListener('click', (event) =>{
-    if (event.target.getAttribute('data-delete') == ''){
-        event.target.parentElement.remove();
+    articleList.addEventListener('click', (event) => {
+    if (event.target.closest('[data-delete]')) {
+        const articleElem = event.target.closest('.article-item');
+        const id = articleElem.dataset.id;
+        store.delete(id);
     }
-    })
-
+    });
     openStatBtn.addEventListener('click', () => {
-        const articlesCount = articles.length
+        const articlesCount = store.articles.length;
         articleCountElement.textContent = articlesCount;
         dialog.showModal();
     });

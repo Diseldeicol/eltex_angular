@@ -6,10 +6,14 @@
 @import "./footer-elements.css";
 @import "./header-elements.css";
 
+#Dialog{
+    margin: 0;
+}
 .blog-articles {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    
 }
 
 .blog-articles p{
@@ -18,7 +22,10 @@
 .blog-articles h1{
     margin: 0;
 }
-
+.blog-page-description p{
+    margin-bottom: 0px;
+    margin-top: 25px;
+}
 .blog-articles time{
     font-size: 16px;
     color: var(--common-text-color);
@@ -26,10 +33,15 @@
 .blog-articles img{
     width: 100%;
 }
+.no-articles{
+    text-align: center;
+    color: var(--about-me-text-color);
+    padding: 154px 0px;
+}
 .article-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 64px;
+    gap: 62px;
 }
 .article-img-wrapper {
 	overflow: hidden;
