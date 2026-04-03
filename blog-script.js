@@ -62,6 +62,7 @@ function handleAddArticleForm() {
     const clonedTemplateNode = articleCardTemplate.content.cloneNode(true);
 
     clonedTemplateNode.querySelector('h4').textContent = articleTitleField.value;
+    clonedTemplateNode.querySelector('p').textContent=articleDescriptionField.value;
     
     articleList.append(clonedTemplateNode);
     addingForm.reset();
