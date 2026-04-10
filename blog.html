@@ -8,9 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="blog.css">
+    <link rel="stylesheet" href="loader.css">
     <link rel="stylesheet" href="media.css">
     <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="blog.css">
 </head>
 <body>
     <header>
@@ -31,8 +32,19 @@
                     <h1>My blogs</h1>
                     <p>Lorem occaecat proident excepteur commodo et nulla eiusmod. Elit esse aute officia dolor elit aute</p>
                 </div>
-                <div class = "article-grid"></div>
-                <p class="no-articles">нет статей</p>
+                <div class="articles-container">
+                    <div class = "article-grid"></div>
+                    <p class="no-articles" hidden="true">нет статей</p>
+                    <div class="spinner-wrapper">
+                        <div class="sk-folding-cube">
+                            <div class="sk-cube1 sk-cube"></div>
+                            <div class="sk-cube2 sk-cube"></div>
+                            <div class="sk-cube3 sk-cube"></div>
+                            <div class="sk-cube4 sk-cube"></div>
+                        </div>
+                    </div>
+                </div>
+                
                 <template id="article-card-tmp">
                     <article class="article-card article-item">
                         <div class="article-img-wrapper">
@@ -48,7 +60,7 @@
                         </button>
                     </article>
                 </template>
-                <a href="#" class="view-more" title ="Статьи">Посмотреть далее</a>
+                <a href="#" class="view-more" title ="Статьи" hidden>Посмотреть далее</a>
                 <div id="article-adding">
                     <form class="adding-form" name ="post-form" data-hidden>
                         <h2>Добавить статью</h2>
