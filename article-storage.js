@@ -42,13 +42,26 @@ export class ArticleStore {
     add(article) {
         this.articles.push(article);
         this.save();
-        this.render();
+
+        const articleElement = article.getElement();
+
+        if (this.articles.length === 1) {
+            this.updateEmptyState();
+        }
+
+        this.container.append(articleElement);
     }
 
     delete(id) {
-        this.articles = this.articles.filter(a => a.id !== id);
+        this.articles = this.articles.filter((article) => article.id !== id);
         this.save();
-        this.render();
+
+        const articleElement = this.container.querySelector(`[data-id="${id}"]`);
+        if (articleElement) {
+            articleElement.remove();
+        }
+
+        this.updateEmptyState();
     }
 
     save() {
@@ -69,20 +82,45 @@ export class ArticleStore {
     render() {
         this.container.querySelectorAll('.article-item').forEach(el => el.remove());
 
+        this.updateEmptyState();
+
+        if (this.articles.length === 0) {
+            return;
+        }
+
+        const articleElements = this.articles.map((article) => article.getElement());
+        this.container.append(...articleElements);
+    }
+    updateEmptyState() {
         const noArticlesElem = document.querySelector('.no-articles');
         const viewMore = document.querySelector('.view-more');
 
         if (this.articles.length === 0) {
-            this.container.style.display = 'none'; 
-            if (noArticlesElem) noArticlesElem.style.display = 'block';
-            if (viewMore) viewMore.style.display = 'none';
-        } else {
-            this.container.style.display = 'grid'; 
-            if (noArticlesElem) noArticlesElem.style.display = 'none';
-            if (viewMore) viewMore.style.display = 'inline-block';
-            this.articles.forEach(article => {
-                this.container.append(article.getElement());
-            });
+            this.container.style.display = 'none';
+
+            if (noArticlesElem) {
+                noArticlesElem.hidden = false;
+                noArticlesElem.style.display = 'flex';
+            }
+
+            if (viewMore) {
+                viewMore.hidden = true;
+                viewMore.style.display = 'none';
+            }
+
+            return;
+        }
+
+        this.container.style.display = 'grid';
+
+        if (noArticlesElem) {
+            noArticlesElem.hidden = true;
+            noArticlesElem.style.display = 'none';
+        }
+
+        if (viewMore) {
+            viewMore.hidden = false;
+            viewMore.style.display = 'block';
         }
     }
 }

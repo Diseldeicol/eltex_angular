@@ -12,10 +12,12 @@
 .blog-articles {
     display: flex;
     flex-direction: column;
-    gap: 40px;
-    
+    gap: 40px;   
 }
-
+.articles-container {
+    position: relative;
+    min-height: 260px;
+}
 .blog-articles p{
     font-size: 18px;
 }
@@ -34,9 +36,13 @@
     width: 100%;
 }
 .no-articles{
+    min-height: 260px;
+    display: none;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    padding: 0px;
     color: var(--about-me-text-color);
-    padding: 154px 0px;
 }
 .article-grid {
     display: grid;
@@ -231,6 +237,9 @@
 
 .adding-form {
     overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    display: none;
 }
 
 .adding-form:not([data-hidden]) {
@@ -243,4 +252,7 @@
     animation: hideButton 250ms ease both;
     max-height: 0px;
     opacity: 0;
+}
+.blog-articles .view-more {
+    display: none;
 }
