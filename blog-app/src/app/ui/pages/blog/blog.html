@@ -1,0 +1,40 @@
+<main>
+        <div class="container">
+            <section class="blog-articles">
+                <div class="blog-page-description">
+                    <h1>My blogs</h1>
+                    <p>Lorem occaecat proident excepteur commodo et nulla eiusmod. Elit esse aute officia dolor elit aute</p>
+                </div>
+                <div class="articles-container">
+                    @if(articles.length != 0){
+                        <div class = "article-grid">
+                        @for (article of articles; track article.id) {
+                            <app-blog-article-card [article]="article" (onDeleteEvent)="onDeleteArticle($event)"></app-blog-article-card>
+                        }
+                        </div>
+                        <a href="#" class="view-more" title ="Статьи">Посмотреть далее</a>
+                    }@else {
+                        <p class="no-articles">нет статей</p>
+                    }
+                </div>
+                <div id="article-adding">
+                    <app-form class="form" [class.form-open]="isEditForm" (onCancelEvent)="closeForm()"></app-form> 
+                   <!--  @if(isEditForm){
+                        <app-form  (onCancelEvent)="closeForm()"></app-form>} -->
+                    <nav class="admin-bar">
+                            <button id="button-edit" title="Редактировать" (click)="EditForm()">  
+                                <img src="images/Post_add.png">  
+                            </button>  
+                            <button id="button-stat" title="Показать статистику" (click)="showStat()">  
+                                <img src="images/stats.png">  
+                            </button>
+                    </nav>
+                </div>
+            </section>
+        </div>
+    </main>
+    <section id="Dialog">
+        @if (showDialog){
+            <app-statictic-dialog (onCloseEvent)="closeDialog()" [articleCount]="articles.length"></app-statictic-dialog>
+        }
+    </section>

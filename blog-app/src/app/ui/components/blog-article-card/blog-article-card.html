@@ -1,0 +1,13 @@
+<article class="article-card article-item">
+    <div class="article-img-wrapper">
+        <img [src]="article.imageUrl"  alt="Фотография"> 
+    </div>
+    <div class="article-content">
+        <h4>{{ article.title }}</h4>
+        <p>{{ article.text }}</p>
+        <time [attr.datetime]="article.date">{{ article.date | date:'dd.MM.yyyy' }}</time>
+    </div>
+    <button class="button-delete" title="Удалить статью" data-delete (click)="onDelete()">  
+        <img src="./images/Delete.png">  
+    </button>
+</article>

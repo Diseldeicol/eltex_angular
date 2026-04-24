@@ -1,0 +1,132 @@
+@use '../../../../styles/mixins' as mixins;
+@media (max-width: 800px) {
+    .article-grid {
+        grid-template-columns: 1fr;
+    }
+    .article-card {
+        max-width: 100%;
+    }
+}
+#Dialog{
+    margin: 0;
+}
+.blog-articles {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;  
+    
+    & p{
+        font-size: 18px;
+    }
+
+    & h1{
+        margin: 0;
+    }
+
+    & time{
+        font-size: 16px;
+        color: var(--common-text-color);
+    }
+
+    & img {
+        width: 100%;
+    }
+
+    & a{
+        @include mixins.a;
+    }
+}
+.articles-container {
+    position: relative;
+    min-height: 40px;
+}
+
+.blog-page-description p{
+    margin-bottom: 0px;
+    margin-top: 25px;
+}
+
+
+.no-articles{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0px;
+    color: var(--about-me-text-color);
+}
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 62px;
+    margin-bottom: 64px;
+}
+
+#article-adding{
+    position: relative;
+}
+.admin-bar {
+    position: fixed;
+    background-color: white;
+    right: 0;
+    top: 33px; 
+    width: 48px;
+    height: 113px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px var(--overlay-color);
+    padding: 0;
+}
+#button-edit,
+#button-stat{
+    width: 21px;
+    height: 21px;
+    border-width: 0;
+    padding: 0;
+    margin: 24px 12px;
+    background-color: white;
+    cursor: pointer;
+}
+#button-stat{
+    margin-top: 0px;
+}
+#button-edit img,
+#button-stat img{
+    display: block;
+    width: 21px;
+    height: 21px;
+}
+@keyframes showButton {
+    from {
+        max-height: 0;
+        opacity: 0;
+    }
+    to {
+        max-height: 460px;
+        opacity: 1;
+    }
+}
+
+@keyframes hideButton {
+    from {
+        max-height: 460px;
+        opacity: 1;
+    }
+    to {
+        max-height: 0;
+        opacity: 0;
+    }
+}
+
+app-form {
+  display: block;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: max-height 250ms ease, opacity 250ms ease;
+}
+
+app-form.form-open {
+  max-height: 460px;
+  opacity: 1;
+  pointer-events: auto;
+}
