@@ -1,0 +1,18 @@
+<dialog open aria-labelledby="dialogTitle">
+    <div class="modal">
+        <div class="modal_header">
+            <h2 class="modal_title" id="dialogTitle">Статистика страницы</h2>
+            <button class="modal_close" type="button" data-close aria-label="Закрыть" (click)="onClose()">✕</button>
+        </div>
+        <div class="modal_body">
+            <div class="article-statistic">
+                <h4>Всего статей:</h4>
+                <p id="article-count">{{articleCount}}</p>
+            </div>
+            <div class="comments-statistic">
+                <h4>Комментарии:</h4>
+                <p>0</p>
+            </div>
+        </div>
+    </div>
+</dialog>

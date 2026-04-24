@@ -1,0 +1,15 @@
+<form class="adding-form" name ="post-form">
+    <h2>Добавить статью</h2>
+    <div class="field">
+        <label for="article-title">Заголовок</label>
+        <input id="article-title" name="title" placeholder="Заголовок статьи" required>
+    </div>
+                        
+    <div class="field">
+        <label for="article-text">Текст статьи</label>
+        <textarea id="article-text" name = "paper-text" rows="5" placeholder="Текст статьи" required></textarea>
+    </div>
+                    
+    <button id="article-post-button" type="submit" title="Добавить статью">Добавить</button>
+    <button id="article-cancel-button" type="button" title="Закрыть режим редактирования" (click)="onCancel()">Отмена</button>
+</form>

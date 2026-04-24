@@ -1,0 +1,52 @@
+.page-card{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 60px;
+  background-color: var(--page-card-background-color);
+  overflow: hidden;
+  
+  & article{
+    flex: 0 1 40%;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    padding: 63px 40px 0px 49px;
+  }
+
+  & article h3 {
+    margin: 0px;
+  }
+
+  & article h5{
+    color: var(--dark-green-color-accent);
+    margin: 0px;
+  }
+  & article p{
+    margin: 0px;
+  }
+  & img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    padding: 0px;
+  }
+  .pages-img-wrapper {
+    overflow: hidden;
+    flex: 0 0 60%;
+    display: flex;
+    justify-content: flex-end;
+    min-height: 320px;
+  }
+  &:hover{
+    background-color: var(--page-card-hover-background-color);
+    & article h5{
+      color:  var(--orange-color-accent);
+    }
+  }
+
+}
+
+
+

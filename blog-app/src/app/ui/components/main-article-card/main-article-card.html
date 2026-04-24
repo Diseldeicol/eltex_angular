@@ -1,0 +1,20 @@
+<div class="page-card">
+  <article>
+    <h5>
+      Опубликовано:
+      <time [attr.datetime]="article.date">
+        {{ article.date | date:'dd.MM.yyyy' }}
+      </time>
+    </h5>
+
+    <h3>{{ article.title }}</h3>
+
+    <p>
+      {{ article.text }}
+    </p>
+  </article>
+
+  <div class="pages-img-wrapper">
+    <img [src]="article.imageUrl" alt="Фотография">
+  </div>
+</div>

@@ -1,0 +1,164 @@
+@use '../../../../styles/mixins' as mixins;
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+address {
+    font-style: normal;
+
+    & a img{
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.pages a{
+    @include mixins.a;
+}
+.about-me{
+    display: flex;
+    gap: 170px; 
+    justify-content: space-between;
+    align-items: center; 
+}
+/* .about_me div{
+    flex-grow: 1;  
+    flex-shrink: 0;  
+    flex-basis: 50%;  
+    max-height: 50%;  
+}   */
+
+.about-me a{
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+    text-decoration: none;
+    color: var(--green-color-accent);
+
+}
+.about-me a::after{
+    content: ">";
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+    text-decoration: none;
+    color: var(--green-color-accent);
+
+}
+/* #about_me_text h1{
+    max-width: 800px;
+} */
+#about-me-text p{
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
+    line-height: 26px;
+    /* max-width: 800px; */
+    color: var(--about-me-text-color);
+}
+#about-me-photo{
+    
+    flex-shrink: 0;
+}
+#about-me-photo img{
+    width: 546px;
+    height: 655px;
+    border-radius: 1px 1px 130px 130px;
+    opacity: 0.9;
+}
+
+#my-skills-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 36px 36px;
+    margin-top: 51px;
+    margin-bottom: 107;
+    list-style: none;
+    padding: 0;
+}
+#my-skills-list li {
+    position: relative;
+    padding-bottom: 8px;
+}
+
+#my-skills-list li::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--line-element-color);
+    margin-top: 8px;
+}
+
+.pages section:last-child{
+    padding-bottom: 35px;
+}
+
+.my-work{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+#my-way div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;  
+    padding: 0px 0px 36px 0px;
+    border-bottom: 3px solid var(--line-element-color);
+}
+#my_work img{
+    width: 60px;
+    height: 60px;
+}
+
+.hobby {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 264px);
+    gap: 20px;
+}
+.hobby-item {
+	position: relative;  /*делаем карточку хобби родителем для абсолют-элемента */
+}
+.hobby-item:nth-child(-n+2) {
+	grid-row: span 2;
+}
+.hobby-item:nth-child(n+3):nth-child(-n+4) {
+	grid-column: span 2;
+}
+.hobby-item::after {
+    content: "";
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1; 
+    background-color: var(--overlay-color); /* полупрозрачный фон */
+    transition: opacity 0.3s ease;
+}
+.hobby-overlay {
+	opacity: 0;
+	position: absolute;
+	z-index: 2;
+	top: 0;
+	left: 0;
+	padding: 16px;
+	transition: opacity 0.3s ease;
+}
+.hobby-item:hover .hobby-overlay {
+	opacity: 1;
+}
+.hobby-item:hover::after {
+	opacity: 1;
+}
+.hobby img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

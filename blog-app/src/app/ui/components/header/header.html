@@ -1,0 +1,15 @@
+<header>
+  <div class="container">
+    <nav>
+      <ul>
+        @for (item of links; track $index){
+          <li><a class="link" 
+          [routerLink]="item.linkHref" >{{item.title}}</a></li>
+        }@empty {no links}
+        <li>
+          <a class="link" href="" (click)="scrollToFooter($event)">Contact</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
