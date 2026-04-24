@@ -4,7 +4,7 @@ import { BlogArticleCard } from '../../components/blog-article-card/blog-article
 import { Article } from '../../../items/article.item';
 import { ARTICLES } from '../../../data/articles.data';
 import { Form } from "../../components/form/form";
-import { StatisticDialog } from "../../components/statistic-dialog/statictic-dialog";
+import { StatisticDialog } from "../../components/statistic-dialog/statistic-dialog";
 
 @Component({
   selector: 'app-blog',
