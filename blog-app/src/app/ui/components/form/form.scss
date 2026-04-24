@@ -1,0 +1,41 @@
+#article-title{
+    width: 100%;
+    height: 60px;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+#article-text{
+    width: 100%;
+    height: 135px;
+    border-radius: 5px;
+    border-width: 1px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+#article-post-button,
+#article-cancel-button
+{
+    width: 276px;
+    height: 51px;
+    border-radius: 5px;
+    background: var(--green-color-accent);
+    color: white;
+    border: 1px solid var(--green-color-accent);
+    margin-right: 20px;
+    cursor: pointer;
+}
+#article-cancel-button{
+    background: white;
+    color: var(--green-color-accent);
+    border-width: 2px;
+}
+#article-adding label{
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    padding: 0px;
+}
+
