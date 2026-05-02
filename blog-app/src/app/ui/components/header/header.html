@@ -4,7 +4,7 @@
       <ul>
         @for (item of links; track $index){
           <li><a class="link" 
-          [routerLink]="item.linkHref" >{{item.title}}</a></li>
+          [routerLink]="item.linkHref" routerLinkActive="active">{{item.title}}</a></li>
         }@empty {no links}
         <li>
           <a class="link" href="" (click)="scrollToFooter($event)">Contact</a>

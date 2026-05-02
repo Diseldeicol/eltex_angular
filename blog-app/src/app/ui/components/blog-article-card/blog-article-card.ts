@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
-import { Article } from '../../../items/article.item';
+import { Article } from '../../../types/article.type';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -12,8 +12,12 @@ import { DatePipe } from '@angular/common';
 export class BlogArticleCard { 
   @Input({ required: true }) article!: Article;
   @Output() onDeleteEvent = new EventEmitter<number>();
+  @Output() onEditEvent = new EventEmitter<Article>();
 
-  onDelete(): void {
+  protected onDelete(): void {
     this.onDeleteEvent.emit(this.article.id);
+  }
+  protected onEdit(): void {
+    this.onEditEvent.emit(this.article);
   }
 }

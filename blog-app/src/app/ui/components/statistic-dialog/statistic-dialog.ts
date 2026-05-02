@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, Output, EventEmitter, Input } from 
 export class StatisticDialog {
   @Output() onCloseEvent = new EventEmitter<void>();
   @Input() articleCount: number = 0;
-  onClose(): void{
+  protected onClose(): void{
 
     this.onCloseEvent.emit();
   }
