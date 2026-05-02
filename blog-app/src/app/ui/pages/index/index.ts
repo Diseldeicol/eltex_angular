@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Article } from '../../../items/article.item';
+import { Article } from '../../../types/article.type';
 import { ARTICLES } from '../../../data/articles.data';
 import { MainArticleCard } from '../../components/main-article-card/main-article-card';
 
@@ -13,9 +13,9 @@ import { MainArticleCard } from '../../components/main-article-card/main-article
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Index { 
-  articles: Article[] = [];
+  protected articles: Article[] = [];
 
-  ngOnInit(): void {
+  private ngOnInit(): void {
     this.articles = ARTICLES.slice(0, 2);
   }
 }

@@ -6,10 +6,15 @@ import { Footer } from './ui/components/footer/footer';
 export const routes: Routes = [
     {
         path:'',
-        component: Index
+        pathMatch: 'full',
+        redirectTo: 'about'
+    },
+    {
+        path: 'about',
+        loadComponent: () => import('./ui/pages/index/index').then(c => c.Index)
     },
     {
         path: 'blog',
-        component: Blog
+        loadComponent: () => import('./ui/pages/blog/blog').then(c => c.Blog)
     },
 ];

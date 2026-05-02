@@ -13,6 +13,10 @@
         opacity: 1;
         visibility: visible;
     }
+    &:hover .button-edit{
+        opacity: 1;
+        visibility: visible;
+    }
     & h4{
         margin: 4px 0px 21px 0px;
     }
@@ -104,6 +108,27 @@
 }
 
 .button-delete img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.button-edit{
+    position:absolute;
+    right: 40px;
+    top: 12px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.button-edit img{
     display: block;
     width: 100%;
     height: 100%;

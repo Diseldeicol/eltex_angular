@@ -32,6 +32,10 @@ header nav {
         font-weight: 700;
         color: var(--green-color-accent);
     }
+    &.active{
+    color: var(--green-color-accent);
 }
+}
+
 
 

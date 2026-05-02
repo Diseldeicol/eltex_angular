@@ -9,7 +9,7 @@
                     @if(articles.length != 0){
                         <div class = "article-grid">
                         @for (article of articles; track article.id) {
-                            <app-blog-article-card [article]="article" (onDeleteEvent)="onDeleteArticle($event)"></app-blog-article-card>
+                            <app-blog-article-card [article]="article" (onDeleteEvent)="onDeleteArticle($event)" (onEditEvent)="openEditForm($event)"></app-blog-article-card>
                         }
                         </div>
                         <a href="#" class="view-more" title ="Статьи">Посмотреть далее</a>
@@ -18,11 +18,11 @@
                     }
                 </div>
                 <div id="article-adding">
-                    <app-form class="form" [class.form-open]="isEditForm" (onCancelEvent)="closeForm()"></app-form> 
+                    <app-form class="form" [class.form-open]="isEditForm" (onCancelEvent)="closeForm()" (onSaveEvent)="onSaveArticle($event)" [editingArticle]="this.editingArticle"></app-form> 
                    <!--  @if(isEditForm){
                         <app-form  (onCancelEvent)="closeForm()"></app-form>} -->
                     <nav class="admin-bar">
-                            <button id="button-edit" title="Редактировать" (click)="EditForm()">  
+                            <button id="button-edit" title="Редактировать" [disabled]="isEditForm" (click)="openAddForm()">  
                                 <img src="images/Post_add.png">  
                             </button>  
                             <button id="button-stat" title="Показать статистику" (click)="showStat()">  

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component,  Input } from '@angular/core';
-import { Article } from '../../../items/article.item';
+import { Article } from '../../../types/article.type';
 import { DatePipe } from '@angular/common';
 
 @Component({
