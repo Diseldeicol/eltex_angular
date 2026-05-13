@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, input, computed, effect } from '@angular/core';
 import { Input,Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Article } from '../../../types/article.type';
@@ -11,7 +11,7 @@ import { Article } from '../../../types/article.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Form { 
-  private _editingArticle: Article | null = null;
+  public editingArticle= input<Article|null>(null);
   protected form = new FormGroup({
     title: new FormControl("",{
       nonNullable: true,
@@ -22,22 +22,30 @@ export class Form {
       validators: [Validators.required],
     }),
   })
+  protected formTitle = computed(() => 
+    this.editingArticle() ? 'Редактировать статью' : 'Добавить статью'
+  );
+  protected saveButtonLabel = computed(() => 
+    this.editingArticle() ? 'Сохранить' : 'Добавить'
+  );
 
-  @Input()
-  set editingArticle(article: Article | null) {
-    this._editingArticle = article;
-
-    if (article) {
-      this.form.patchValue({
-        title: article.title,
-        text: article.text,
-      });
-    }
+  constructor() {
+    this.editDataEffect();
   }
 
-  get editingArticle(): Article | null {
-    return this._editingArticle;
-  }
+  private editDataEffect(): void {
+    effect(() => {
+      const editData = this.editingArticle();
+
+      if (editData) {
+        this.form.patchValue(
+          { title: editData.title, text: editData.text });
+      } else {
+        this.form.reset();
+      }
+    });
+  } 
+  
   @Output() onCancelEvent = new EventEmitter<void>();
   @Output() onSaveEvent = new EventEmitter<Pick<Article, 'title' | 'text'>>();
   private resetAfterClose(): void {

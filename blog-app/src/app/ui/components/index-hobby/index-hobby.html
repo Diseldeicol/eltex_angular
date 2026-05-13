@@ -1,0 +1,15 @@
+<section>
+      <h2>Мои хобби</h2>
+
+      <div class="hobby hobby-card">
+        @for (hobby of myHobbies; track hobby.id){
+            <div class="hobby-item">
+                <img [src]="hobby.imgUrl" [alt]="hobby.imgAlt" class="hobby-img1">
+                <div class="hobby-overlay">
+                    <h4>{{hobby.projectName}}</h4>
+                    <p>{{hobby.description}}</p>
+                </div>
+            </div>
+        }
+      </div>
+</section>

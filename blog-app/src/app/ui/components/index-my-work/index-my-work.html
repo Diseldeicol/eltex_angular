@@ -1,0 +1,23 @@
+<section class="my-work">
+    <section id="today-work">
+        <h2>Моя текущая должность</h2>
+        <p>Инженер 3-й категории технической поддержки и мониторинга в IT компании ООО "Кортэл"</p>
+        <p>
+          С 2015 сотрудники компании "Кортэл" помогают компаниям управлять IТ
+          инфраструктурой: облака, ИТ-безопасность и инфраструктура.
+        </p>
+    </section>
+
+    <section id="my-way">
+        @for(work of workExperience; track work.id){
+            <div>
+                <img [src]="work.imageUrl" [alt]="work.imageAlt">
+                <article>
+                    <h5>Период - ({{ work.period }})</h5>
+                    <h4>{{work.position}}</h4>
+                    <p>{{ work.description }}</p>
+                </article>
+            </div>
+        }
+    </section>
+</section>
