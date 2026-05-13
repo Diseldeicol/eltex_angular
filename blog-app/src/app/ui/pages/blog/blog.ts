@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal,computed, inject } from '@angular/core';
 
 import { BlogArticleCard } from '../../components/blog-article-card/blog-article-card';
 import { Article } from '../../../types/article.type';
 import { ARTICLES } from '../../../data/articles.data';
 import { Form } from "../../components/form/form";
 import { StatisticDialog } from "../../components/statistic-dialog/statistic-dialog";
+import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
+import { ArticlesService } from '../../../services/articles/articles.service';
+import { ARTICLES_SERVICE } from '../../../services/articles/articles-service.token';
 
 @Component({
   selector: 'app-blog',
@@ -14,47 +17,69 @@ import { StatisticDialog } from "../../components/statistic-dialog/statistic-dia
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Blog {
-  articles: Article[] = [];
-  isEditForm: boolean = false;
+  private readonly articlesService = inject(ARTICLES_SERVICE);
+  private readonly articlesStore = inject(ArticlesStoreService)
+  private readonly pageSize = 7;
+
+  protected readonly articles = this.articlesStore.articles;
+  protected readonly totalCount = this.articlesStore.totalCount;
+  protected readonly activePage = this.articlesStore.activePage;
+  protected readonly totalPages = this.articlesStore.totalPages;
+  protected readonly pages = computed(() => {
+    const pages: number[] = [];
+
+    for (let page = 1; page <= this.totalPages(); page++) {
+      pages.push(page);
+    }
+
+    return pages;}
+  );
+  
+  protected isEditForm = signal(false);
   showDialog: boolean = false;
-  private closeFormTimer: ReturnType<typeof setTimeout> | null = null;
   protected editingArticle: Article | null = null;
 
-  ngOnInit(): void {
-    this.articles = [...ARTICLES];
+  public ngOnInit(): void {
+    if (this.articles().length > 0 && this.articlesStore.pageSize() === this.pageSize) {
+      return;
+    }
+
+    this.loadArticles(this.activePage());
+  }
+  private loadArticles(page: number): void {
+    this.articlesService.getArticles(page, this.pageSize)
+      .subscribe((response) => {
+        this.articlesStore.saveResponse(response);
+      });
+  }
+
+  protected changePage(page: number): void {
+    if (page === this.activePage() || page < 1 || page > this.totalPages()) {
+      return;
+    }
+
+    this.closeForm();
+    this.loadArticles(page);
+    
+    document.getElementById('articles-section')?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
   }
 
   openAddForm(): void {
-    if (this.closeFormTimer) {
-      clearTimeout(this.closeFormTimer);
-      this.closeFormTimer = null;
-    }
-
     this.editingArticle = null;
-    this.isEditForm = true;
+    this.isEditForm.set(true);
   }
 
   openEditForm(article: Article): void {
-    if (this.closeFormTimer) {
-      clearTimeout(this.closeFormTimer);
-      this.closeFormTimer = null;
-    }
-
     this.editingArticle = article;
-    this.isEditForm = true;
+    this.isEditForm.set(true);
   }
 
   closeForm(): void {
-    this.isEditForm = false;
-
-    if (this.closeFormTimer) {
-      clearTimeout(this.closeFormTimer);
-    }
-
-    this.closeFormTimer = setTimeout(() => {
-      this.editingArticle = null;
-      this.closeFormTimer = null;
-    }, 250);
+    this.isEditForm.set(false);
+    this.editingArticle = null;
   }
 
   showStat(): void{
@@ -65,42 +90,30 @@ export class Blog {
     this.showDialog=false;
   }
 
-  onDeleteArticle(id:number): void{
-    this.articles = this.articles.filter(article => article.id !== id);
+  protected onDeleteArticle(id:number): void{
+    if (this.editingArticle?.id === id) {
+      this.closeForm();
+    }
+    this.articlesService.deleteArticle(id, this.activePage(),this.pageSize).subscribe((response) => {
+      this.articlesStore.saveResponse(response);
+    })
   }
+
   protected onSaveArticle(value: Pick<Article, 'title' | 'text'>): void {
     if (this.editingArticle) {
-      this.articles = this.articles.map(article => {
-        if (article.id !== this.editingArticle?.id) {
-          return article;
-        }
-
-        return {
-          ...article,
-          title: value.title,
-          text: value.text,
-        };
+      this.articlesService.updateArticle(this.editingArticle.id, value, this.activePage(), this.pageSize).subscribe((response) => {
+        this.articlesStore.saveResponse(response);
+        this.closeForm();
       });
-    } else {
-      const newArticle: Article = {
-        id: this.getNextArticleId(),
-        title: value.title,
-        text: value.text,
-        date: new Date().toISOString().slice(0, 10),
-        imageUrl: 'images/noname_photo.png',
-      };
 
-      this.articles = [...this.articles, newArticle];
+      return;
     }
 
-    this.closeForm();
+    this.articlesService
+      .addArticle(value, this.activePage(), this.pageSize).subscribe((response) => {
+        this.articlesStore.saveResponse(response);
+        this.closeForm();
+      });  
+  
   }
-
-  private getNextArticleId(): number {
-    if (this.articles.length === 0) {
-      return 1;
-    }
-
-    return Math.max(...this.articles.map(article => article.id)) + 1;
-  }
- }
+}

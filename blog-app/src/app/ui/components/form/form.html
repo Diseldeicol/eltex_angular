@@ -1,9 +1,5 @@
 <form [formGroup]="form">
-    @if (editingArticle) {
-      <h2>Редактировать статью</h2>
-    } @else {
-      <h2>Добавить статью</h2>
-    }
+      <h2>{{formTitle()}}</h2>
     <div class="field">
         <label for="article-title">Заголовок</label>
         <input id="article-title" name="title" placeholder="Заголовок статьи" formControlName="title">
@@ -24,11 +20,7 @@
     </div>
                     
     <button id="article-post-button" type="button" [disabled]="form.invalid" title="Добавить статью" (click)="onSubmit()">
-    @if (editingArticle) {
-      Сохранить
-    } @else {
-      Добавить
-    }
+    {{saveButtonLabel()}}
     </button>
     <button id="article-cancel-button" type="button" title="Закрыть режим редактирования" (click)="onCancel()">Отмена</button>
 </form>

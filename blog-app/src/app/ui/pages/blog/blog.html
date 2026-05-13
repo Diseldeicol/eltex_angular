@@ -5,24 +5,46 @@
                     <h1>My blogs</h1>
                     <p>Lorem occaecat proident excepteur commodo et nulla eiusmod. Elit esse aute officia dolor elit aute</p>
                 </div>
-                <div class="articles-container">
-                    @if(articles.length != 0){
+                <div id="articles-section" class="articles-container">
+                    @if(articles().length != 0){
                         <div class = "article-grid">
-                        @for (article of articles; track article.id) {
+                        @for (article of articles(); track article.id) {
                             <app-blog-article-card [article]="article" (onDeleteEvent)="onDeleteArticle($event)" (onEditEvent)="openEditForm($event)"></app-blog-article-card>
                         }
                         </div>
-                        <a href="#" class="view-more" title ="Статьи">Посмотреть далее</a>
+                        @if (totalPages() > 1) {
+                            <nav class="pagination">
+                                <button type="button" [disabled]="activePage() === 1" (click)="changePage(activePage() - 1)">
+                                <
+                                </button>
+
+                                @for (page of pages(); track page) {
+                                <button type="button" [class.pagination-active]="page === activePage()" (click)="changePage(page)">
+                                    {{ page }}
+                                </button>
+                                }
+
+                                <button type="button" [disabled]="activePage() === totalPages()" (click)="changePage(activePage() + 1)">
+                                >
+                                </button>
+                            </nav>
+                            }
                     }@else {
                         <p class="no-articles">нет статей</p>
                     }
                 </div>
-                <div id="article-adding">
-                    <app-form class="form" [class.form-open]="isEditForm" (onCancelEvent)="closeForm()" (onSaveEvent)="onSaveArticle($event)" [editingArticle]="this.editingArticle"></app-form> 
-                   <!--  @if(isEditForm){
-                        <app-form  (onCancelEvent)="closeForm()"></app-form>} -->
+                <div id="article-adding"> 
+                    @if (isEditForm()) {
+                        <app-form class="form"
+                            animate.enter="form-open"
+                            animate.leave="form-close"
+                            (onCancelEvent)="closeForm()"
+                            (onSaveEvent)="onSaveArticle($event)"
+                            [editingArticle]="this.editingArticle"
+                        ></app-form>
+                    }
                     <nav class="admin-bar">
-                            <button id="button-edit" title="Редактировать" [disabled]="isEditForm" (click)="openAddForm()">  
+                            <button id="button-edit" title="Редактировать" [disabled]="isEditForm()" (click)="openAddForm()">  
                                 <img src="images/Post_add.png">  
                             </button>  
                             <button id="button-stat" title="Показать статистику" (click)="showStat()">  
@@ -35,6 +57,6 @@
     </main>
     <section id="Dialog">
         @if (showDialog){
-            <app-statictic-dialog (onCloseEvent)="closeDialog()" [articleCount]="articles.length"></app-statictic-dialog>
+            <app-statictic-dialog (onCloseEvent)="closeDialog()" [articleCount]="totalCount()"></app-statictic-dialog>
         }
     </section>

@@ -116,17 +116,64 @@
     }
 }
 
-app-form {
+.form {
   display: block;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  pointer-events: none;
-  transition: max-height 250ms ease, opacity 250ms ease;
-}
-
-app-form.form-open {
   max-height: 500px;
   opacity: 1;
   pointer-events: auto;
+  overflow: hidden;
+}
+
+.form-open {
+  animation: showButton 300ms linear forwards;
+}
+
+.form-close {
+  animation: hideButton 300ms linear forwards;
+}
+#button-edit:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+#button-edit:disabled img {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.pagination{
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+
+    & button{
+        display: block;
+        font-style: normal;
+        font-size: 18px;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        color: var(--green-color-accent);
+        background-color: white;
+        border-width: 1px;
+        border-style: solid;
+        border-color: var(--green-color-accent);
+        border-radius: 5px;
+        padding: 12px 30px;
+        margin-top: 32px;
+    }
+
+    & button:hover{
+        background-color: var(--line-element-color);
+    }
+
+    & :disabled{
+        cursor: not-allowed;
+        opacity: 0.6;
+    }
+
+    & .pagination-active{
+        border-width: 2px;
+        background-color: var(--button-selected-background-color);
+    }
 }
