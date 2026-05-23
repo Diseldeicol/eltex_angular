@@ -8,6 +8,10 @@
     & p{
         display: none;
     }
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(30, 33, 40, 0.12);
+    }
     
     &:hover .button-delete{
         opacity: 1;
@@ -37,59 +41,63 @@
         }
 }
 :host(:first-child) {
-    grid-column: span 3;
+  grid-column: span 3;
 
-    & .article-card{
-        grid-column: span 3;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        background-color: var(--main-article-background-color);
-        border-radius: 8px;
-        overflow: hidden;
-    }
+  & .article-card {
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-article-background-color);
+    border-radius: 8px;
+    overflow: hidden;
+  }
 
-    & .article-content{
-        flex: 1 1 35%;
-        display: flex;
-        height: 100%;
-        flex-direction: column;
-        padding-top: 23px;
-        padding-right: 29px;
-        padding-left: 45px;
-        text-align: left;
-        flex-shrink: 1;
-        min-width: 0;
-        margin: 0;
-    }
+  & .article-card-link {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+  }
 
-    & .article-img-wrapper{
-        overflow: hidden;
-        flex: 1 1 65%;
-        object-fit: fill;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-width: 0;
-    }
+  & .article-content {
+    flex: 1 1 35%;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    padding-top: 23px;
+    padding-right: 29px;
+    padding-left: 45px;
+    text-align: left;
+    flex-shrink: 1;
+    min-width: 0;
+    margin: 0;
+  }
 
-    & h4 {
-        margin: 0;
-        font-size: 40px;
-        font-weight: 700;
-        color: var(--common-text-color)
-    }
+  & .article-img-wrapper {
+    overflow: hidden;
+    flex: 1 1 65%;
+    object-fit: fill;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+  }
 
-    & p {
-        display: block;
-        text-align: left;
-        font-size: 18px;
-        padding-right: 10px;
-        letter-spacing: -1%;
-        line-height: 26px;
-    }
+  & h4 {
+    margin: 0;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--common-text-color);
+  }
 
+  & p {
+    display: block;
+    text-align: left;
+    font-size: 18px;
+    padding-right: 10px;
+    letter-spacing: -1%;
+    line-height: 26px;
+  }
 }
 
 .button-delete{
@@ -107,12 +115,6 @@
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-.button-delete img{
-    display: block;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
 .button-edit{
     position:absolute;
     right: 40px;
@@ -128,9 +130,35 @@
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-.button-edit img{
-    display: block;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+.button-delete mat-icon,
+.button-edit mat-icon {
+  width: 100%;
+  height: 100%;
+  font-size: 22px;
+  line-height: 1;
+  pointer-events: none;
+}
+.article-card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1 1 auto;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.article-card-link:visited,
+.article-card-link:hover,
+.article-card-link:active,
+.article-card-link:focus {
+  color: inherit;
+  text-decoration: none;
+}
+.article-card-link:visited,
+.article-card-link:hover,
+.article-card-link:active,
+.article-card-link:focus {
+  color: inherit;
+  text-decoration: none;
 }

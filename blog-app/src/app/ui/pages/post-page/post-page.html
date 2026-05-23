@@ -1,0 +1,134 @@
+<main class="post-page">
+  <div class="container">
+    <a class="back-link" routerLink="/blog">
+      <mat-icon>arrow_back</mat-icon>
+      Вернуться к статьям
+    </a>
+
+    @if (article(); as currentArticle) {
+      <article class="post">
+        <div class="post-image-wrapper">
+          <img [src]="currentArticle.imageUrl" [alt]="currentArticle.title">
+        </div>
+
+        <div class="post-content">
+          <time class="post-date" [attr.datetime]="currentArticle.date">
+            {{ currentArticle.date | date:'dd.MM.yyyy' }}
+          </time>
+
+          <h1>{{ currentArticle.title }}</h1>
+
+          <p>{{ currentArticle.text }}</p>
+
+          <div class="rating">
+            <span class="rating-label">Рейтинг статьи:</span>
+
+            <button mat-icon-button type="button" aria-label="Уменьшить рейтинг статьи" (click)="changeArticleRating(-1)">
+              <mat-icon>thumb_down</mat-icon>
+            </button>
+
+            <strong>{{ currentArticle.rating }}</strong>
+
+            <button mat-icon-button type="button" aria-label="Увеличить рейтинг статьи" (click)="changeArticleRating(1)">
+              <mat-icon>thumb_up</mat-icon>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <section class="comments-section">
+        <h2>Комментарии</h2>
+
+        @if (comments().length > 0) {
+          <div class="comments-list">
+            @for (comment of comments(); track comment.id) {
+              <mat-card class="comment-card">
+                <mat-card-header>
+                  <mat-card-title>{{ comment.author }}</mat-card-title>
+                  <mat-card-subtitle>
+                    {{ comment.date | date:'dd.MM.yyyy' }}
+                  </mat-card-subtitle>
+                </mat-card-header>
+
+                <mat-card-content>
+                  <p>{{ comment.text }}</p>
+                </mat-card-content>
+
+                <mat-card-actions align="end">
+                  <div class="comment-rating">
+                    <span>Рейтинг: {{ comment.rating }}</span>
+
+                    <button mat-icon-button type="button" aria-label="Уменьшить рейтинг комментария" (click)="changeCommentRating(comment, -1)">
+                      <mat-icon>thumb_down</mat-icon>
+                    </button>
+
+                    <button mat-icon-button type="button" aria-label="Увеличить рейтинг комментария" (click)="changeCommentRating(comment, 1)">
+                      <mat-icon>thumb_up</mat-icon>
+                    </button>
+                  </div>
+                </mat-card-actions>
+              </mat-card>
+            }
+          </div>
+        } @else {
+          <p class="empty-comments">Комментариев пока нет. Добавьте первый комментарий.</p>
+        }
+      </section>
+
+      <section class="comment-form-section">
+        <h2>Добавить комментарий</h2>
+
+        <form class="comment-form" [formGroup]="commentForm" (ngSubmit)="addComment()">
+          <mat-form-field appearance="outline">
+            <mat-label>Имя или ник</mat-label>
+            <input matInput formControlName="author" placeholder="Введите имя">
+
+            @if (commentForm.controls.author.hasError('required')) {
+              <mat-error>Укажите имя или ник</mat-error>
+            }
+
+            @if (commentForm.controls.author.hasError('maxlength')) {
+              <mat-error>Имя должно быть не длиннее 40 символов</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Текст комментария</mat-label>
+            <textarea
+              matInput
+              rows="5"
+              formControlName="text"
+              placeholder="Введите комментарий"
+            ></textarea>
+
+            @if (commentForm.controls.text.hasError('required')) {
+              <mat-error>Введите текст комментария</mat-error>
+            }
+
+            @if (commentForm.controls.text.hasError('minlength')) {
+              <mat-error>Комментарий должен быть не короче 3 символов</mat-error>
+            }
+
+            @if (commentForm.controls.text.hasError('maxlength')) {
+              <mat-error>Комментарий должен быть не длиннее 500 символов</mat-error>
+            }
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" type="submit" [disabled]="commentForm.invalid">
+            <mat-icon>add_comment</mat-icon>
+            Добавить комментарий
+          </button>
+        </form>
+      </section>
+    } @else {
+      <section class="not-found">
+        <h1>Статья не найдена</h1>
+        <p>Возможно, статья была удалена или указан неверный адрес.</p>
+
+        <a mat-flat-button color="primary" routerLink="/blog">
+          Вернуться к списку статей
+        </a>
+      </section>
+    }
+  </div>
+</main>

@@ -17,4 +17,13 @@ export const routes: Routes = [
         path: 'blog',
         loadComponent: () => import('./ui/pages/blog/blog').then(c => c.Blog)
     },
+    {
+        path: 'blog/:id',
+        loadComponent: () =>
+            import('./ui/pages/post-page/post-page').then((m) => m.PostPage),
+    },
+    {
+        path: '**',
+        redirectTo: '',
+    },
 ];
