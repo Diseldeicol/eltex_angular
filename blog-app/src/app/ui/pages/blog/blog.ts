@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, signal,computed, inject } from '@an
 
 import { BlogArticleCard } from '../../components/blog-article-card/blog-article-card';
 import { Article } from '../../../types/article.type';
+import { MatIconModule } from '@angular/material/icon';
 import { ARTICLES } from '../../../data/articles.data';
 import { Form } from "../../components/form/form";
 import { StatisticDialog } from "../../components/statistic-dialog/statistic-dialog";
@@ -11,7 +12,7 @@ import { ARTICLES_SERVICE } from '../../../services/articles/articles-service.to
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticleCard, Form, StatisticDialog],
+  imports: [BlogArticleCard, Form, StatisticDialog, MatIconModule],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,7 +61,7 @@ export class Blog {
 
     this.closeForm();
     this.loadArticles(page);
-    
+
     document.getElementById('articles-section')?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',

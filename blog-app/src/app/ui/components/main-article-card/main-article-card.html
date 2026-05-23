@@ -1,4 +1,5 @@
-<div class="page-card">
+<a class="page-card-link" [routerLink]="['/blog', article.id]">
+  <div class="page-card">
   <article>
     <h5>
       Опубликовано:
@@ -18,3 +19,4 @@
     <img [src]="article.imageUrl" alt="Фотография">
   </div>
 </div>
+</a>
