@@ -1,10 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, Output, EventEmitter } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { Article } from '../../../types/article.type';
 import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-blog-article-card',
-  imports: [DatePipe],
+  standalone: true,
+  imports: [DatePipe, RouterLink, MatIconModule],
   templateUrl: './blog-article-card.html',
   styleUrl: './blog-article-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

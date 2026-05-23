@@ -7,6 +7,7 @@ export const ARTICLES: Article[] = [
     text: 'В этой статье разберем базовую структуру HTML-документа, основные теги и типичные ошибки начинающих.',
     date: '2024-12-20',
     imageUrl: 'images/noname_photo.png',
+    rating: 7,
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const ARTICLES: Article[] = [
     text: 'Разберем, зачем нужны теги header, main, section, article и footer, и как они помогают сделать страницу понятнее.',
     date: '2025-01-12',
     imageUrl: 'images/noname_photo.png',
+    rating: 5,
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const ARTICLES: Article[] = [
     text: 'Поговорим о селекторах, цветах, отступах и о том, как начать оформлять страницу аккуратно.',
     date: '2025-02-02',
     imageUrl: 'images/noname_photo.png',
+    rating: 3,
   },
   {
     id: 4,
@@ -28,5 +31,6 @@ export const ARTICLES: Article[] = [
     text: 'Поговорим о селекторах, цветах, отступах и о том, как начать оформлять страницу аккуратно.',
     date: '2025-02-02',
     imageUrl: 'images/noname_photo.png',
+    rating: 4,
   },
 ];

@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, signal,computed, inject } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Title } from '@angular/platform-browser';
 import { BlogArticleCard } from '../../components/blog-article-card/blog-article-card';
 import { Article } from '../../../types/article.type';
+import { MatIconModule } from '@angular/material/icon';
 import { ARTICLES } from '../../../data/articles.data';
 import { Form } from "../../components/form/form";
 import { StatisticDialog } from "../../components/statistic-dialog/statistic-dialog";
@@ -11,20 +13,23 @@ import { ARTICLES_SERVICE } from '../../../services/articles/articles-service.to
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogArticleCard, Form, StatisticDialog],
+  imports: [BlogArticleCard, Form, StatisticDialog, MatIconModule],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Blog {
+  private readonly titleService = inject(Title);
+  private readonly destroyRef = inject(DestroyRef);
   private readonly articlesService = inject(ARTICLES_SERVICE);
   private readonly articlesStore = inject(ArticlesStoreService)
-  private readonly pageSize = 7;
 
   protected readonly articles = this.articlesStore.articles;
   protected readonly totalCount = this.articlesStore.totalCount;
   protected readonly activePage = this.articlesStore.activePage;
   protected readonly totalPages = this.articlesStore.totalPages;
+  protected readonly pageSize = this.articlesStore.pageSize;
+
   protected readonly pages = computed(() => {
     const pages: number[] = [];
 
@@ -40,14 +45,14 @@ export class Blog {
   protected editingArticle: Article | null = null;
 
   public ngOnInit(): void {
-    if (this.articles().length > 0 && this.articlesStore.pageSize() === this.pageSize) {
-      return;
-    }
-
+    this.titleService.setTitle('BlogApp');
     this.loadArticles(this.activePage());
   }
+  
   private loadArticles(page: number): void {
-    this.articlesService.getArticles(page, this.pageSize)
+    this.articlesService
+      .getArticles(page, this.articlesStore.pageSize())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
         this.articlesStore.saveResponse(response);
       });
@@ -60,7 +65,7 @@ export class Blog {
 
     this.closeForm();
     this.loadArticles(page);
-    
+
     document.getElementById('articles-section')?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
@@ -94,26 +99,38 @@ export class Blog {
     if (this.editingArticle?.id === id) {
       this.closeForm();
     }
-    this.articlesService.deleteArticle(id, this.activePage(),this.pageSize).subscribe((response) => {
+    this.articlesService
+    .deleteArticle(id, this.activePage(), this.articlesStore.pageSize())
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe((response) => {
       this.articlesStore.saveResponse(response);
-    })
+    });
   }
 
   protected onSaveArticle(value: Pick<Article, 'title' | 'text'>): void {
     if (this.editingArticle) {
-      this.articlesService.updateArticle(this.editingArticle.id, value, this.activePage(), this.pageSize).subscribe((response) => {
-        this.articlesStore.saveResponse(response);
-        this.closeForm();
-      });
+      this.articlesService
+        .updateArticle(
+          this.editingArticle.id,
+          value,
+          this.activePage(),
+          this.articlesStore.pageSize(),
+        )
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((response) => {
+          this.articlesStore.saveResponse(response);
+          this.closeForm();
+        });
 
       return;
     }
 
     this.articlesService
-      .addArticle(value, this.activePage(), this.pageSize).subscribe((response) => {
+      .addArticle(value, this.activePage(), this.articlesStore.pageSize())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((response) => {
         this.articlesStore.saveResponse(response);
         this.closeForm();
-      });  
-  
+      });
   }
 }

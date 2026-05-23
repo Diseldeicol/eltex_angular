@@ -4,4 +4,5 @@ export type Article = {
   text: string;
   date: string;
   imageUrl: string;
+  rating: number;
 }

@@ -16,7 +16,16 @@ export class ArticlesService implements ArticlesServiceInterface {
       return [];
     }
 
-    return JSON.parse(articlesJson) as Article[];
+    return (JSON.parse(articlesJson) as Article[]).map((article) =>
+    this.normalizeArticle(article),
+  );
+  }
+
+  private normalizeArticle(article: Article): Article {
+    return {
+      ...article,
+      rating: article.rating ?? 0,
+    };
   }
 
   private saveArticlesToStorage(articles: Article[]): void {
@@ -62,6 +71,7 @@ export class ArticlesService implements ArticlesServiceInterface {
       text: article.text,
       date: new Date().toISOString().slice(0, 10),
       imageUrl: 'images/noname_photo.png',
+      rating: 0,
     };
 
     const updatedArticles = [newArticle, ...articles];

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { ARTICLES_SERVICE } from '../../../services/articles/articles-service.token';
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
 import { MainArticleCard } from '../../components/main-article-card/main-article-card';
@@ -17,11 +18,13 @@ import { IndexHobby } from "../../components/index-hobby/index-hobby";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Index { 
+  private readonly titleService = inject(Title);
   private readonly articlesService = inject(ARTICLES_SERVICE);
   private readonly articlesStore = inject(ArticlesStoreService);
   protected readonly articles = this.articlesStore.articles;
 
   public ngOnInit(): void {
+    this.titleService.setTitle('BlogApp');
     if(this.articles().length > 0 && this.articlesStore.activePage() == 1 &&  this.articlesStore.pageSize() === 2) {
       return;
     }
