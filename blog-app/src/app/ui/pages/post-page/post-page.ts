@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, DestroyRef, Component, inject } from '@angular/core';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,6 +35,7 @@ import type { ArticleComment } from '../../../types/article.comment.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostPage {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
   private readonly titleService = inject(Title);
   private readonly postPageService = inject(PostPageService);
@@ -55,13 +57,13 @@ export class PostPage {
 
   constructor() {
     this.route.paramMap
-      .pipe(
-        map((params) => Number(params.get('id'))),
-        takeUntilDestroyed(),
-      )
-      .subscribe((articleId) => {
-        this.loadPost(articleId);
-      });
+    .pipe(
+      map((params) => Number(params.get('id'))),
+      takeUntilDestroyed(this.destroyRef),
+    )
+    .subscribe((articleId) => {
+      this.loadPost(articleId);
+    });
   }
 
   protected changeArticleRating(delta: number): void {
