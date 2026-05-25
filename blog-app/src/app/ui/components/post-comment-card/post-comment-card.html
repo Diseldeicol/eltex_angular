@@ -1,0 +1,36 @@
+<mat-card class="comment-card">
+  <mat-card-header>
+    <mat-card-title>{{ comment.author }}</mat-card-title>
+    <mat-card-subtitle>
+      {{ comment.date | date:'dd.MM.yyyy' }}
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>{{ comment.text }}</p>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <div class="comment-rating">
+      <span>Рейтинг: {{ comment.rating }}</span>
+
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Уменьшить рейтинг комментария"
+        (click)="decreaseRating()"
+      >
+        <mat-icon svgIcon="rating-minus"></mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        type="button"
+        aria-label="Увеличить рейтинг комментария"
+        (click)="increaseRating()"
+      >
+        <mat-icon svgIcon="rating-plus"></mat-icon>
+      </button>
+    </div>
+  </mat-card-actions>
+</mat-card>

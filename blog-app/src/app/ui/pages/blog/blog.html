@@ -35,6 +35,9 @@
                 </div>
                 <div id="article-adding"> 
                     @if (isEditForm()) {
+                        @if (saveError()) {
+                            <p class="save-error">{{ saveError() }}</p>
+                        }
                         <app-form class="form"
                             animate.enter="form-open"
                             animate.leave="form-close"

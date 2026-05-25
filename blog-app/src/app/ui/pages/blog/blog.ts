@@ -1,14 +1,16 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Title } from '@angular/platform-browser';
 import { BlogArticleCard } from '../../components/blog-article-card/blog-article-card';
+import { switchMap } from 'rxjs';
+import { CategoriesService } from '../../../services/categories/categories.service';
+import type { ArticleFormData } from '../../../types/article.form.data.type';
 import { Article } from '../../../types/article.type';
 import { MatIconModule } from '@angular/material/icon';
-import { ARTICLES } from '../../../data/articles.data';
 import { Form } from "../../components/form/form";
 import { StatisticDialog } from "../../components/statistic-dialog/statistic-dialog";
 import { ArticlesStoreService } from '../../../services/articles/articles-store.service';
-import { ArticlesService } from '../../../services/articles/articles.service';
 import { ARTICLES_SERVICE } from '../../../services/articles/articles-service.token';
 
 @Component({
@@ -22,7 +24,8 @@ export class Blog {
   private readonly titleService = inject(Title);
   private readonly destroyRef = inject(DestroyRef);
   private readonly articlesService = inject(ARTICLES_SERVICE);
-  private readonly articlesStore = inject(ArticlesStoreService)
+  private readonly articlesStore = inject(ArticlesStoreService);
+  private readonly categoriesService = inject(CategoriesService);
 
   protected readonly articles = this.articlesStore.articles;
   protected readonly totalCount = this.articlesStore.totalCount;
@@ -41,6 +44,8 @@ export class Blog {
   );
   
   protected isEditForm = signal(false);
+  protected readonly saveError = signal<string | null>(null);
+
   showDialog: boolean = false;
   protected editingArticle: Article | null = null;
 
@@ -73,16 +78,19 @@ export class Blog {
   }
 
   openAddForm(): void {
+    this.saveError.set(null);
     this.editingArticle = null;
     this.isEditForm.set(true);
   }
 
   openEditForm(article: Article): void {
+    this.saveError.set(null);
     this.editingArticle = article;
     this.isEditForm.set(true);
   }
 
   closeForm(): void {
+    this.saveError.set(null);
     this.isEditForm.set(false);
     this.editingArticle = null;
   }
@@ -95,7 +103,7 @@ export class Blog {
     this.showDialog=false;
   }
 
-  protected onDeleteArticle(id:number): void{
+  protected onDeleteArticle(id:string): void{
     if (this.editingArticle?.id === id) {
       this.closeForm();
     }
@@ -106,31 +114,62 @@ export class Blog {
       this.articlesStore.saveResponse(response);
     });
   }
+  protected onSaveArticle(value: ArticleFormData): void {
+    this.saveError.set(null);
 
-  protected onSaveArticle(value: Pick<Article, 'title' | 'text'>): void {
-    if (this.editingArticle) {
-      this.articlesService
-        .updateArticle(
-          this.editingArticle.id,
-          value,
-          this.activePage(),
-          this.articlesStore.pageSize(),
-        )
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((response) => {
+    const editingArticle = this.editingArticle;
+
+    this.categoriesService
+      .ensureCategory(value.categoryName)
+      .pipe(
+        switchMap((category) => {
+          const articleData: ArticleFormData = {
+            ...value,
+            categoryId: category?.id ?? null,
+            categoryName: category?.name ?? value.categoryName ?? null,
+          };
+
+          if (editingArticle) {
+            return this.articlesService.updateArticle(
+              editingArticle.id,
+              articleData,
+              this.activePage(),
+              this.articlesStore.pageSize(),
+            );
+          }
+
+          return this.articlesService.addArticle(
+            articleData,
+            this.activePage(),
+            this.articlesStore.pageSize(),
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe({
+        next: (response) => {
           this.articlesStore.saveResponse(response);
           this.closeForm();
-        });
+        },
+        error: (error: unknown) => {
+          console.error('Ошибка сохранения статьи:', error);
+          this.saveError.set(this.getSaveErrorMessage(error));
+        },
+      });
+  }
+  private getSaveErrorMessage(error: unknown): string {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 500) {
+        return 'Не удалось сохранить статью. Возможно, статья с таким заголовком уже существует.';
+      }
 
-      return;
+      if (error.status === 0) {
+        return 'Не удалось подключиться к серверу. Проверьте, что бэкенд запущен.';
+      }
+
+      return `Не удалось сохранить статью. Ошибка сервера: ${error.status}.`;
     }
 
-    this.articlesService
-      .addArticle(value, this.activePage(), this.articlesStore.pageSize())
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((response) => {
-        this.articlesStore.saveResponse(response);
-        this.closeForm();
-      });
+    return 'Не удалось сохранить статью. Попробуйте ещё раз.';
   }
 }
