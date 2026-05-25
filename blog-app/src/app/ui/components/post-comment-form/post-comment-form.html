@@ -1,0 +1,41 @@
+<form class="comment-form" [formGroup]="commentForm" (ngSubmit)="addComment()">
+  <mat-form-field appearance="outline">
+    <mat-label>Имя или ник</mat-label>
+    <input matInput formControlName="author" placeholder="Введите имя">
+
+    @if (commentForm.controls.author.hasError('required')) {
+      <mat-error>Укажите имя или ник</mat-error>
+    }
+
+    @if (commentForm.controls.author.hasError('maxlength')) {
+      <mat-error>Имя должно быть не длиннее 40 символов</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Текст комментария</mat-label>
+    <textarea
+      matInput
+      rows="5"
+      formControlName="text"
+      placeholder="Введите комментарий"
+    ></textarea>
+
+    @if (commentForm.controls.text.hasError('required')) {
+      <mat-error>Введите текст комментария</mat-error>
+    }
+
+    @if (commentForm.controls.text.hasError('minlength')) {
+      <mat-error>Комментарий должен быть не короче 3 символов</mat-error>
+    }
+
+    @if (commentForm.controls.text.hasError('maxlength')) {
+      <mat-error>Комментарий должен быть не длиннее 500 символов</mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="commentForm.invalid">
+    <mat-icon svgIcon="add-comment"></mat-icon>
+    Добавить комментарий
+  </button>
+</form>

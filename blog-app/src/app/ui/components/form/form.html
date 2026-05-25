@@ -18,6 +18,47 @@
             <p class="field-error">Введите описание статьи</p>
         }
     </div>
+
+    <div class="form-row">
+      <div class="category-block">
+        <input
+            id="article-category"
+            name="category"
+            placeholder="Введите категорию"
+            formControlName="categoryName"
+            [matAutocomplete]="categoryAutocomplete"
+        >
+
+        <mat-autocomplete #categoryAutocomplete="matAutocomplete">
+            @for (category of filteredCategories(); track category.id) {
+            <mat-option [value]="category.name">
+                {{ category.name }}
+            </mat-option>
+            }
+        </mat-autocomplete>
+
+        @if (categoryNameValue() && !hasExactCategory()) {
+            <p class="field-hint">
+            Такой категории ещё нет. Она будет создана при сохранении статьи.
+            </p>
+        }
+      </div>
+
+      <div class="file-block">
+        <label class="file-upload" for="article-image">
+          <span class="file-upload__button">Выбрать изображение</span>
+          <span class="file-upload__name">{{ selectedImageName() }}</span>
+        </label>
+
+        <input class="file-input" id="article-image" type="file" accept="image/png, image/jpeg, image/jpg, image/gif, image/svg+xml"
+          (change)="onImageSelected($event)"
+        >
+
+        <p class="field-hint">
+          PNG, JPG, GIF или SVG.
+        </p>
+      </div>
+    </div>
                     
     <button id="article-post-button" type="button" [disabled]="form.invalid" title="Добавить статью" (click)="onSubmit()">
     {{saveButtonLabel()}}

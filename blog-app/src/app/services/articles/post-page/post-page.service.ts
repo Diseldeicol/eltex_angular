@@ -10,12 +10,12 @@ export class PostPageService {
   private readonly articlesStorageKey = 'articles';
   private readonly commentsStorageKey = 'article-comments';
 
-  public getPostWithComments(articleId: number): Observable<PostDetailsResponse> {
+  public getPostWithComments(articleId: string): Observable<PostDetailsResponse> {
     return of(this.getPostDetails(articleId));
   }
 
   public addComment(
-    articleId: number,
+    articleId: string,
     comment: Pick<ArticleComment, 'author' | 'text'>,
   ): Observable<PostDetailsResponse> {
     const comments = this.getCommentsFromStorage();
@@ -35,7 +35,7 @@ export class PostPageService {
   }
 
   public changeArticleRating(
-    articleId: number,
+    articleId: string,
     delta: number,
   ): Observable<PostDetailsResponse> {
     const articles = this.getArticlesFromStorage();
@@ -57,7 +57,7 @@ export class PostPageService {
   }
 
   public changeCommentRating(
-    articleId: number,
+    articleId: string,
     commentId: number,
     delta: number,
   ): Observable<PostDetailsResponse> {
@@ -79,7 +79,7 @@ export class PostPageService {
     return of(this.getPostDetails(articleId));
   }
 
-  private getPostDetails(articleId: number): PostDetailsResponse {
+  private getPostDetails(articleId: string): PostDetailsResponse {
     const article =
       this.getArticlesFromStorage().find(
         (currentArticle) => currentArticle.id === articleId,

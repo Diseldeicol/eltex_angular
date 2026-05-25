@@ -14,7 +14,7 @@ import { DatePipe } from '@angular/common';
 })
 export class BlogArticleCard { 
   @Input({ required: true }) article!: Article;
-  @Output() onDeleteEvent = new EventEmitter<number>();
+  @Output() onDeleteEvent = new EventEmitter<string>();
   @Output() onEditEvent = new EventEmitter<Article>();
 
   protected onDelete(): void {

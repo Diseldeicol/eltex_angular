@@ -1,10 +1,7 @@
-export type Article = {
-  id: string;
+export type ArticleFormData = {
   title: string;
   text: string;
-  date: string;
-  imageUrl: string;
-  rating: number;
+  image?: File | null;
   categoryId?: string | null;
   categoryName?: string | null;
 };
