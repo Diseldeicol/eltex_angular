@@ -1,5 +1,5 @@
 export type ArticleComment = {
-  id: number;
+  id: string;
   articleId: string;
   author: string;
   text: string;
