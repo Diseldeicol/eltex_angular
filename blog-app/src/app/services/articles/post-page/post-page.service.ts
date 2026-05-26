@@ -4,9 +4,10 @@ import { of, type Observable } from 'rxjs';
 import type { Article } from '../../../types/article.type';
 import type { ArticleComment } from '../../../types/article.comment.type';
 import type { PostDetailsResponse } from '../../../types/post-details-response.type';
+import type { PostPageServiceInterface } from './post-page-service.interface';
 
 @Injectable()
-export class PostPageService {
+export class PostPageService implements PostPageServiceInterface {
   private readonly articlesStorageKey = 'articles';
   private readonly commentsStorageKey = 'article-comments';
 
@@ -58,7 +59,7 @@ export class PostPageService {
 
   public changeCommentRating(
     articleId: string,
-    commentId: number,
+    commentId: string,
     delta: number,
   ): Observable<PostDetailsResponse> {
     const comments = this.getCommentsFromStorage();
@@ -87,7 +88,16 @@ export class PostPageService {
 
     const comments = this.getCommentsFromStorage()
       .filter((comment) => comment.articleId === articleId)
-      .sort((firstComment, secondComment) => secondComment.id - firstComment.id);
+      .sort((firstComment, secondComment) => {
+        const firstId = Number(firstComment.id);
+        const secondId = Number(secondComment.id);
+
+        if (Number.isFinite(firstId) && Number.isFinite(secondId)) {
+          return secondId - firstId;
+        }
+
+        return secondComment.date.localeCompare(firstComment.date);
+      });
 
     return {
       article,
@@ -127,13 +137,13 @@ export class PostPageService {
     localStorage.setItem(this.commentsStorageKey, JSON.stringify(comments));
   }
 
-  private getNextCommentId(comments: ArticleComment[]): number {
+  private getNextCommentId(comments: ArticleComment[]): string {
     const maxId = comments.reduce(
-      (maxCommentId, comment) => Math.max(maxCommentId, comment.id),
+      (maxCommentId, comment) => Math.max(maxCommentId, Number(comment.id) || 0),
       0,
     );
 
-    return maxId + 1;
+    return String(maxId + 1);
   }
 
   private normalizeArticle(article: Article): Article {

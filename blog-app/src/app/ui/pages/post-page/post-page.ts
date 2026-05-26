@@ -5,9 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { map } from 'rxjs';
+import { map, pairwise, startWith } from 'rxjs';
 
-import { ARTICLES_SERVICE } from '../../../services/articles/articles-service.token';
+import { environment } from '../../../../environments/environment';
+import {
+  ArticleEventsService,
+  type ArticleEvent,
+} from '../../../services/article-events.service';
+import { PostPageGraphqlService } from '../../../services/articles/post-page/post-page-graphql.service';
+import { POST_PAGE_SERVICE } from '../../../services/articles/post-page/post-page-service.token';
 import { PostPageService } from '../../../services/articles/post-page/post-page.service';
 import { PostPageStoreService } from '../../../services/articles/post-page/post-page-store.service';
 import type { ArticleComment } from '../../../types/article.comment.type';
@@ -27,7 +33,15 @@ import { PostCommentForm } from '../../components/post-comment-form/post-comment
   ],
   templateUrl: './post-page.html',
   styleUrl: './post-page.scss',
-  providers: [PostPageService, PostPageStoreService],
+  providers: [
+    PostPageService,
+    PostPageGraphqlService,
+    PostPageStoreService,
+    {
+      provide: POST_PAGE_SERVICE,
+      useClass: environment.useBackendApi ? PostPageGraphqlService : PostPageService,
+    },
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostPage {
@@ -35,8 +49,8 @@ export class PostPage {
   private readonly route = inject(ActivatedRoute);
   private readonly titleService = inject(Title);
 
-  private readonly articlesService = inject(ARTICLES_SERVICE);
-  private readonly postPageService = inject(PostPageService);
+  private readonly articleEventsService = inject(ArticleEventsService);
+  private readonly postPageService = inject(POST_PAGE_SERVICE);
   private readonly postPageStore = inject(PostPageStoreService);
 
   protected readonly article = this.postPageStore.article;
@@ -46,11 +60,31 @@ export class PostPage {
     this.route.paramMap
       .pipe(
         map((params) => params.get('id') ?? ''),
+        startWith(''),
+        pairwise(),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((articleId) => {
+      .subscribe(([previousArticleId, articleId]) => {
+        if (previousArticleId) {
+          this.articleEventsService.unsubscribeArticle(previousArticleId);
+        }
+
         this.loadPost(articleId);
       });
+
+    this.articleEventsService.events$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => this.handleArticleEvent(event));
+
+    this.destroyRef.onDestroy(() => {
+      const article = this.article();
+
+      if (article) {
+        this.articleEventsService.unsubscribeArticle(article.id);
+      }
+
+      this.articleEventsService.disconnect();
+    });
   }
 
   protected changeArticleRating(delta: number): void {
@@ -60,18 +94,11 @@ export class PostPage {
       return;
     }
 
-    this.articlesService
+    this.postPageService
       .changeArticleRating(article.id, delta)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((updatedArticle) => {
-        if (!updatedArticle) {
-          return;
-        }
-
-        this.postPageStore.saveResponse({
-          article: updatedArticle,
-          comments: this.comments(),
-        });
+      .subscribe((response) => {
+        this.postPageStore.saveResponse(response);
       });
   }
 
@@ -93,10 +120,7 @@ export class PostPage {
       .addComment(article.id, comment)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        this.postPageStore.saveResponse({
-          article,
-          comments: response.comments,
-        });
+        this.postPageStore.saveResponse(response);
       });
   }
 
@@ -111,10 +135,7 @@ export class PostPage {
       .changeCommentRating(article.id, comment.id, delta)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((response) => {
-        this.postPageStore.saveResponse({
-          article,
-          comments: response.comments,
-        });
+        this.postPageStore.saveResponse(response);
       });
   }
 
@@ -125,27 +146,54 @@ export class PostPage {
       return;
     }
 
-    this.articlesService
-      .getArticleById(articleId)
+    this.postPageService
+      .getPostWithComments(articleId)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((article) => {
-        if (!article) {
+      .subscribe((response) => {
+        if (!response.article) {
           this.postPageStore.clear();
           this.titleService.setTitle('Статья не найдена');
           return;
         }
 
-        this.postPageService
-          .getPostWithComments(article.id)
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((response) => {
-            this.postPageStore.saveResponse({
-              article,
-              comments: response.comments,
-            });
-
-            this.titleService.setTitle(article.title);
-          });
+        this.postPageStore.saveResponse(response);
+        this.titleService.setTitle(response.article.title);
+        this.articleEventsService.subscribeArticle(response.article.id);
       });
+  }
+
+  private handleArticleEvent(event: ArticleEvent): void {
+    const article = this.article();
+
+    if (!article) {
+      return;
+    }
+
+    if (
+      event.type === 'ARTICLE_RATING_CHANGED' &&
+      event.payload.articleId === article.id
+    ) {
+      this.postPageStore.updateArticleRating(article.id, event.payload.rating);
+      return;
+    }
+
+    if (
+      event.type === 'COMMENT_RATING_CHANGED' &&
+      event.payload.articleId === article.id
+    ) {
+      this.postPageStore.updateCommentRating(event.payload.commentId, event.payload.rating);
+      return;
+    }
+
+    if (event.type === 'COMMENT_CREATED' && event.payload.articleId === article.id) {
+      this.postPageStore.upsertComment({
+        id: event.payload.commentId,
+        articleId: event.payload.articleId,
+        author: event.payload.username,
+        text: event.payload.content,
+        date: String(event.payload.createdAt),
+        rating: 0,
+      });
+    }
   }
 }

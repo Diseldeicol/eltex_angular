@@ -14,6 +14,46 @@ export class PostPageStoreService {
     this.comments.set(response.comments);
   }
 
+  public updateArticleRating(articleId: string, rating: number): void {
+    this.article.update((article) => {
+      if (!article || article.id !== articleId) {
+        return article;
+      }
+
+      return {
+        ...article,
+        rating,
+      };
+    });
+  }
+
+  public upsertComment(comment: ArticleComment): void {
+    this.comments.update((comments) => {
+      const commentExists = comments.some((currentComment) => currentComment.id === comment.id);
+
+      if (commentExists) {
+        return comments.map((currentComment) =>
+          currentComment.id === comment.id ? { ...currentComment, ...comment } : currentComment,
+        );
+      }
+
+      return [comment, ...comments];
+    });
+  }
+
+  public updateCommentRating(commentId: string, rating: number): void {
+    this.comments.update((comments) =>
+      comments.map((comment) =>
+        comment.id === commentId
+          ? {
+              ...comment,
+              rating,
+            }
+          : comment,
+      ),
+    );
+  }
+
   public clear(): void {
     this.article.set(null);
     this.comments.set([]);
